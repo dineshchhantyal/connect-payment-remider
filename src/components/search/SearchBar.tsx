@@ -1,9 +1,18 @@
 "use client";
+import clsx from "clsx";
 import React from "react";
 
-const SearchBar = () => {
+interface SearchBarProps
+  extends React.DetailedHTMLProps<
+    React.FormHTMLAttributes<HTMLFormElement>,
+    HTMLFormElement
+  > {
+  className?: string;
+}
+
+const SearchBar = ({ className, ...props }: SearchBarProps) => {
   return (
-    <form className="hidden md:block flex-[0.7]">
+    <form className={clsx("", className)} {...props}>
       <label
         htmlFor="search"
         className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
@@ -21,9 +30,9 @@ const SearchBar = () => {
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             ></path>
           </svg>
@@ -31,11 +40,9 @@ const SearchBar = () => {
         <input
           type="search"
           id="search"
-          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1 transition-width duration-500"
+          className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 roundedLg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 flex-1 transition-width duration-500 rounded-md"
           placeholder="event, date, website, etc."
           required
-          onFocus={(e) => e.target.classList.add("w-96")}
-          onBlur={(e) => e.target.classList.remove("w-96")}
         />
         <button
           type="submit"
