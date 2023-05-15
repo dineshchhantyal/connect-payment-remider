@@ -25,6 +25,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        {/* @ts-expect-error Async Server Component */}
         <Header logo={"/next.svg"} />
         {session ? dashboard : login}
         {children}
