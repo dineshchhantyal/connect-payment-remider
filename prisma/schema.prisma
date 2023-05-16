@@ -24,7 +24,12 @@ model Payment {
   paid     Boolean @default(false)
   paidAt   DateTime?
   duration DateTime    @default(now())
-
+  timezones String? @default("America/Los_Angeles")
+  link      String?
+  image     String?
+  type      String? @default("one-time") // one-time, monthly, yearly
+  category String? @default("other") // other, donation, subscription, membership
+  paymentMethod String? @default("paypal") // paypal, stripe, venmo, cashapp, bank, crypto, credit-card, cash
 }
 
 model Profile {
