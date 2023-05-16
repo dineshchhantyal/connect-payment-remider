@@ -242,7 +242,61 @@ const NewPayment = () => {
               </span>
             )}
           </div>
-
+          {/* type of payment one-time, monthly, yearly */}
+          <div className="flex flex-col gap-2 my-4">
+            <label htmlFor="type" className="text-sm font-semibold">
+              Type
+            </label>
+            {/* use radios  */}
+            <div className="flex gap-4">
+              <div className="flex items-center gap-3">
+                <label
+                  className="
+                    bg-gray-100 p-4 rounded-md flex items-center gap-2 cursor-pointer font-semibold text-gray-900
+                    hover:bg-gray-200 hover:text-gray-900 hover:border-gray-300
+                    dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:hover:border-gray-600 dark: dark:border-gray-600
+                "
+                  htmlFor="one-time"
+                >
+                  <input
+                    type="radio"
+                    id="one-time"
+                    value="one-time"
+                    {...register("type", { required: true })}
+                  />
+                  One-time
+                </label>
+                <label
+                  htmlFor="monthly"
+                  className="bg-gray-100 p-4 rounded-md flex items-center gap-2 cursor-pointer font-semibold text-gray-900
+                    hover:bg-gray-200 hover:text-gray-900 hover:border-gray-300
+                    dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:hover:border-gray-600 dark: dark:border-gray-600"
+                >
+                  <input
+                    type="radio"
+                    id="monthly"
+                    value="monthly"
+                    {...register("type", { required: true })}
+                  />
+                  Monthly
+                </label>
+                <label
+                  htmlFor="yearly"
+                  className="bg-gray-100 p-4 rounded-md flex items-center gap-2 cursor-pointer font-semibold text-gray-900
+                    hover:bg-gray-200 hover:text-gray-900 hover:border-gray-300
+                    dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:hover:border-gray-600 dark: dark:border-gray-600"
+                >
+                  <input
+                    type="radio"
+                    id="yearly"
+                    value="yearly"
+                    {...register("type", { required: true })}
+                  />
+                  Yearly
+                </label>
+              </div>
+            </div>
+          </div>
           <div className="flex flex-col gap-2 my-4">
             <label htmlFor="date" className="text-sm font-semibold">
               Date
@@ -265,8 +319,7 @@ const NewPayment = () => {
               Description
             </label>
             <div className="relative w-full">
-              <input
-                type="text"
+              <textarea
                 id="description"
                 className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                 placeholder="Description"
