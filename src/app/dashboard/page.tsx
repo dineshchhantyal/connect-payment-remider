@@ -1,4 +1,4 @@
-import NearestReminder from "@/components/NearestReminder/NearestRemider";
+import NearestReminder from "@/components/NearestReminder/NearestReminder";
 import SpecialBundle from "@/components/SpecialOffers/SpecialBundle";
 import { unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
