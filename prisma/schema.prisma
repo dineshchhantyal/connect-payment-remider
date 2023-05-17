@@ -15,7 +15,7 @@ model Payment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String   @db.VarChar(255)
-  content   String?
+  description   String?
   author    User     @relation(fields: [authorId], references: [id])
   authorId  Int
   amount   Int     @default(0)
@@ -26,7 +26,7 @@ model Payment {
   timezones String? @default("America/Los_Angeles")
   link      String?
   image     String?
-  type      String? @default("one-time") // one-time, monthly, yearly
+  paymentType      String? @default("one-time") // one-time, monthly, yearly
   category String? @default("other") // other, donation, subscription, membership
   paymentMethod String? @default("paypal") // paypal, stripe, venmo, cashapp, bank, crypto, credit-card, cash
 }
@@ -37,6 +37,7 @@ model Profile {
   user   User    @relation(fields: [userId], references: [id])
   userId Int     @unique
   image String?
+  createdAt DateTime @default(now())
 }
 
 model User {

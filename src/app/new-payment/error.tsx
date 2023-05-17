@@ -1,29 +1,28 @@
 "use client";
-import AddNewReminderForm from "@/components/Forms/AddNewReminderForm";
-import NearestReminder from "@/components/NearestReminder/NearestReminder";
 
 import React from "react";
 
-const NewPayment = () => {
-  const onSubmit = async (data: any) => {
-    const res = await fetch("/new-payment/api", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    const json = await res.json();
-    console.log("response", json);
-  };
+const NewPaymentError = () => {
   return (
     <main className="flex gap-12 container mx-auto">
       {/* form for options to add new payment reminder*/}
       <div className="flex-1">
         <h2
           className="font-bold mb-4 text-2xl text-gray-900 dark:text-white dark:text-opacity-80 dark:font-semibold dark:mb-4 dark:text-2xl dark:mt-4
-        "
+            "
         >
           Add new reminder
         </h2>
-        <AddNewReminderForm onSubmit={onSubmit} />
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error!</strong>
+          <span className="block sm:inline">
+            {" "}
+            Something seriously went wrong.
+          </span>
+        </div>
       </div>
       {/* calender preview */}
       <div>
@@ -37,10 +36,9 @@ const NewPayment = () => {
             </div>
           ))}
         </div>
-        <NearestReminder />
       </div>
     </main>
   );
 };
 
-export default NewPayment;
+export default NewPaymentError;

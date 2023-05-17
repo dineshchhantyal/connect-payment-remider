@@ -1,5 +1,4 @@
 import calculateRemainingTime from "./calculateRemainingTime";
+import prisma from "./prisma";
 
-export default {
-  calculateRemainingTime,
-};
+export { calculateRemainingTime, prisma };

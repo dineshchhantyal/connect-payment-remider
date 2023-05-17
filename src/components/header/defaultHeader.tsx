@@ -1,7 +1,7 @@
 import { unstable_getServerSession } from "next-auth";
 import LoginButton from "../Login/LoginButton";
 import SearchBar from "../Search/SearchBar";
-import calculateRemainingTime from "@/lib/calculateRemainingTime";
+import { calculateRemainingTime } from "@/lib/helphers";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";

@@ -13,19 +13,21 @@ const AddNewReminderForm = ({
   onSubmit,
   ...props
 }: AddNewReminderFormProps) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<PaymentInput>({
     title: "",
     amount: 0,
     category: "donation",
-    date: Date.now(),
-    repeat: "monthly",
+    duration: new Date(),
     description: "",
-    type: "one-time",
+    paymentType: "one-time",
     paymentMethod: "credit-card",
+    currency: "USD",
   });
 
-  const handleFormSubmit = (data: any) => {
-    console.log("data", formData);
+  console.log(formData.duration.toISOString());
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     onSubmit(formData);
   };
 
@@ -36,10 +38,17 @@ const AddNewReminderForm = ({
       | React.ChangeEvent<HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
+    if (name == "duration") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: new Date(value),
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
   return (
@@ -162,7 +171,7 @@ const AddNewReminderForm = ({
               type="radio"
               id="one-time"
               value="one-time"
-              checked={formData.type === "one-time"}
+              checked={formData.paymentType === "one-time"}
               onChange={handleInputChange}
               name="type"
             >
@@ -173,7 +182,7 @@ const AddNewReminderForm = ({
               type="radio"
               id="monthly"
               value="monthly"
-              checked={formData.type === "monthly"}
+              checked={formData.paymentType === "monthly"}
               onChange={handleInputChange}
               name="type"
             >
@@ -184,7 +193,7 @@ const AddNewReminderForm = ({
               type="radio"
               id="yearly"
               value="yearly"
-              checked={formData.type === "yearly"}
+              checked={formData.paymentType === "yearly"}
               onChange={handleInputChange}
               name="type"
             >
@@ -197,15 +206,16 @@ const AddNewReminderForm = ({
       <div className="flex flex-col gap-2 my-4">
         <div className="relative w-full">
           <InputField
-            label="date"
+            label="duration"
             type="datetime-local"
-            id="date"
+            id="duration"
             placeholder="Date"
-            value={formData.date}
+            value={formData.duration.toISOString().slice(0, 16)}
             onChange={handleInputChange}
-            name="date"
+            name="duration"
+            required
           >
-            Date
+            Duration
           </InputField>
         </div>
       </div>
