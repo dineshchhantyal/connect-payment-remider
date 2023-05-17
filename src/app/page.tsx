@@ -1,8 +1,8 @@
-import { getServerSession } from "next-auth";
+import { unstable_getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const session = await getServerSession();
+  const session = await unstable_getServerSession();
   if (session) {
     redirect("/dashboard");
   } else {

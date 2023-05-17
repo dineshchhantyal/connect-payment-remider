@@ -1,9 +1,9 @@
-import { getServerSession } from "next-auth";
+import { unstable_getServerSession } from "next-auth";
 import authOptions from "../auth/[...nextauth]/configuration";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-  const session = await getServerSession(authOptions);
+  const session = await unstable_getServerSession(authOptions);
   if (session) {
     NextResponse.json({
       content:

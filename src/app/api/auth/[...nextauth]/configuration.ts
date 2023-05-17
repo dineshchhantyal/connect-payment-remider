@@ -2,6 +2,7 @@ import { Account, NextAuthOptions, Profile, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaClient, Prisma } from "@prisma/client";
+import { redirect } from "next/navigation";
 
 const prisma = new PrismaClient();
 
@@ -45,6 +46,7 @@ const authOptions: NextAuthOptions = {
               },
             },
           });
+
           return true;
         } catch (e) {
           console.log(e);
