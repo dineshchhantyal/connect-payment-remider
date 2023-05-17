@@ -1,0 +1,5 @@
+POST http://localhost:3000/test HTTP/1.1
+{
+    "name": "test",
+    "age": 18
+}

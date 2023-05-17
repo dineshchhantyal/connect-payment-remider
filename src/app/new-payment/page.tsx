@@ -5,6 +5,9 @@ import NearestReminder from "@/components/NearestReminder/NearestReminder";
 import React from "react";
 
 const NewPayment = () => {
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <main className="flex gap-12 container mx-auto">
       {/* form for options to add new payment reminder*/}
@@ -15,13 +18,16 @@ const NewPayment = () => {
         >
           Add new reminder
         </h2>
-        <AddNewReminderForm />
+        <AddNewReminderForm onSubmit={onSubmit} />
       </div>
       {/* calender preview */}
       <div>
         <div className="border-red-100 grid grid-cols-7 my-12">
           {new Array(30).fill(0).map((c, i) => (
-            <div className="p-2 border-gray-100 bg-gray-800 m-1 rounded-sm grid place-items-center">
+            <div
+              className="p-2 border-gray-100 bg-gray-800 m-1 rounded-sm grid place-items-center"
+              key={i + 1}
+            >
               {i + 1}
             </div>
           ))}

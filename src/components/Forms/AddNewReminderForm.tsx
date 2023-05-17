@@ -1,34 +1,62 @@
-import React from "react";
+import React, { useState } from "react";
 import InputField from "@/components/atomic/InputField";
 import RadioField from "@/components/atomic/RadioInput";
 import SelectField from "@/components/atomic/SelectField";
 import Image from "next/image";
-import { useForm } from "react-hook-form";
 
-const AddNewReminderForm = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+interface AddNewReminderFormProps
+  extends React.HTMLAttributes<HTMLFormElement> {
+  onSubmit: (data: any) => void;
+}
 
-  const onSubmit = (data: any) => console.log(data);
+const AddNewReminderForm = ({
+  onSubmit,
+  ...props
+}: AddNewReminderFormProps) => {
+  const [formData, setFormData] = useState({
+    title: "",
+    amount: 0,
+    category: "donation",
+    date: Date.now(),
+    repeat: "monthly",
+    description: "",
+    type: "one-time",
+    paymentMethod: "credit-card",
+  });
+
+  const handleFormSubmit = (data: any) => {
+    console.log("data", formData);
+    onSubmit(formData);
+  };
+
+  const handleInputChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleFormSubmit} {...props}>
       <InputField
         label="Title"
         type="text"
         id="title"
+        required
         placeholder="Enter title"
-        {...register("title", { required: true })}
+        name="title"
+        value={formData.title}
+        onChange={handleInputChange}
       >
         Title
       </InputField>
 
-      {errors.title && (
-        <span className="text-red-500">This field is required</span>
-      )}
       <div className="my-4">
         <div className="flex">
           <label
@@ -53,9 +81,9 @@ const AddNewReminderForm = () => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fill-rule="evenodd"
+                fillRule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                clip-rule="evenodd"
+                clipRule="evenodd"
               ></path>
             </svg>
           </button>
@@ -115,26 +143,18 @@ const AddNewReminderForm = () => {
               id="amount"
               className="rounded-l-none"
               placeholder="Amount"
-              {...register("amount", {
-                required: true,
-                min: 0,
-                max: 100000,
-              })}
+              value={formData.amount}
+              onChange={handleInputChange}
+              name="amount"
             />
           </div>
         </div>
-        {errors.amount && (
-          <span className="text-red-500 text-sm">
-            Amount is required and should be between 0 and 100000
-          </span>
-        )}
       </div>
-      {/* type of payment one-time, monthly, yearly */}
+
       <div className="flex flex-col gap-2 my-4">
         <label htmlFor="type" className="text-sm font-semibold">
           Type
         </label>
-        {/* use radios  */}
         <div className="flex gap-4">
           <div className="flex items-center gap-3">
             <RadioField
@@ -142,7 +162,9 @@ const AddNewReminderForm = () => {
               type="radio"
               id="one-time"
               value="one-time"
-              {...register("type", { required: true })}
+              checked={formData.type === "one-time"}
+              onChange={handleInputChange}
+              name="type"
             >
               One-time
             </RadioField>
@@ -151,7 +173,9 @@ const AddNewReminderForm = () => {
               type="radio"
               id="monthly"
               value="monthly"
-              {...register("type", { required: true })}
+              checked={formData.type === "monthly"}
+              onChange={handleInputChange}
+              name="type"
             >
               Monthly
             </RadioField>
@@ -160,13 +184,16 @@ const AddNewReminderForm = () => {
               type="radio"
               id="yearly"
               value="yearly"
-              {...register("type", { required: true })}
+              checked={formData.type === "yearly"}
+              onChange={handleInputChange}
+              name="type"
             >
               Yearly
             </RadioField>
           </div>
         </div>
       </div>
+
       <div className="flex flex-col gap-2 my-4">
         <div className="relative w-full">
           <InputField
@@ -174,15 +201,15 @@ const AddNewReminderForm = () => {
             type="datetime-local"
             id="date"
             placeholder="Date"
-            {...register("date", { required: true })}
+            value={formData.date}
+            onChange={handleInputChange}
+            name="date"
           >
             Date
           </InputField>
         </div>
-        {errors.date && (
-          <span className="text-red-500 text-sm">Date is required</span>
-        )}
       </div>
+
       <div className="flex flex-col gap-2 my-4">
         <label htmlFor="description" className="text-sm font-semibold">
           Description
@@ -192,19 +219,20 @@ const AddNewReminderForm = () => {
             id="description"
             className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-md border-l-gray-50 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-l-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
             placeholder="Description"
-            {...register("description", { required: true })}
+            value={formData.description}
+            name="description"
+            onChange={handleInputChange}
           />
         </div>
-        {errors.description && (
-          <span className="text-red-500 text-sm">Description is required</span>
-        )}
       </div>
+
       <div className="flex flex-col gap-2 my-4">
         <div className="relative w-full">
           <SelectField
             label="category"
             id="category"
-            {...register("category", { required: true })}
+            value={formData.category}
+            onChange={handleInputChange}
             options={[
               { value: "donation", label: "Donation" },
               { value: "subscription", label: "Subscription" },
@@ -212,20 +240,20 @@ const AddNewReminderForm = () => {
               { value: "bills", label: "Bills" },
               { value: "other", label: "Other" },
             ]}
+            name="category"
           >
             Category
           </SelectField>
         </div>
-        {errors.category && (
-          <span className="text-red-500 text-sm">Category is required</span>
-        )}
       </div>
+
       <div className="flex flex-col gap-2 my-4">
         <div className="relative w-full">
           <SelectField
             label="paymentMethod"
             id="paymentMethod"
-            {...register("paymentMethod", {})}
+            value={formData.paymentMethod}
+            onChange={handleInputChange}
             options={[
               { value: "paypal", label: "Paypal" },
               { value: "stripe", label: "Stripe" },
@@ -236,16 +264,13 @@ const AddNewReminderForm = () => {
               { value: "cash", label: "Cash" },
               { value: "other", label: "Other" },
             ]}
+            name="paymentMethod"
           >
             Payment Method
           </SelectField>
         </div>
-        {errors.paymentMethod && (
-          <span className="text-red-500 text-sm">
-            Payment Method is required
-          </span>
-        )}
       </div>
+
       <button
         className="w-full p-2.5 mt-4 text-sm font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
         type="submit"
