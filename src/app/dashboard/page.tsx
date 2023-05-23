@@ -1,3 +1,4 @@
+import FullView from "@/components/Calender/FullView";
 import NearestReminder from "@/components/NearestReminder/NearestReminder";
 import SpecialBundle from "@/components/SpecialOffers/SpecialBundle";
 import { unstable_getServerSession } from "next-auth";
@@ -33,13 +34,16 @@ const Dashboard = async () => {
             </button>
           </Link>
 
-          <div className="border-red-100 grid grid-cols-7 mt-12">
+          {/* <div className="border-red-100 grid grid-cols-7 mt-12">
             {new Array(30).fill(0).map((c, i) => (
               <div className="p-2 border-gray-100 bg-gray-800 m-1 rounded-sm grid place-items-center">
                 {i + 1}
               </div>
             ))}
-          </div>
+          </div> */}
+          <section className="mt-12">
+            <FullView />
+          </section>
         </div>
       </main>
       <button className="bg-red-400 p-3 rounded-md hover:bg-red-500 font-semibold">
