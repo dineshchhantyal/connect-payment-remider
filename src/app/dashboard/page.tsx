@@ -1,13 +1,27 @@
 import FullView from "@/components/Calender/FullView";
 import NearestReminder from "@/components/NearestReminder/NearestReminder";
 import SpecialBundle from "@/components/SpecialOffers/SpecialBundle";
-import { unstable_getServerSession } from "next-auth";
+import baseURL from "@/lib/baseURL";
+import { getServerSession, unstable_getServerSession } from "next-auth";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 import { BiMessageSquareAdd } from "react-icons/bi";
+import authOptions from "../api/auth/[...nextauth]/configuration";
 
 const Dashboard = async () => {
+  const session = await unstable_getServerSession();
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  const payments: Payment[] = [];
   return (
     <div className="container mx-auto">
       {/* <h1>Dashboard</h1>
@@ -22,14 +36,14 @@ const Dashboard = async () => {
       {/* add new */}
       {/* calender */}
 
-      <main className="flex my-12 gap-12">
-        <div className="flex-[0.49]">
+      <main className="flex my-6 gap-12">
+        <div className="">
           <NearestReminder />
           <SpecialBundle />
         </div>
-        <div className="flex flex-grow flex-col mt-12 ">
-          <Link href={"/new-payment"}>
-            <button className="bg-blue-600 p-3 rounded-lg hover:bg-blue-700 font-medium text-white inline-flex items-center gap-2 shadow-md">
+        <div className="flex flex-1 flex-col mt-6">
+          <Link href={"/new-payment"} className="w-max">
+            <button className="bg-blue-500 p-3 rounded-md hover:bg-blue-700 font-medium text-white inline-flex items-center gap-2 shadow-md">
               <BiMessageSquareAdd /> reminder
             </button>
           </Link>
@@ -41,7 +55,8 @@ const Dashboard = async () => {
               </div>
             ))}
           </div> */}
-          <section className="mt-12">
+          <section className="mt-6">
+            {/* @ts-expect-error Async Server Component */}
             <FullView />
           </section>
         </div>

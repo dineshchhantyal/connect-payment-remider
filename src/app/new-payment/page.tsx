@@ -1,17 +1,23 @@
 "use client";
 import AddNewReminderForm from "@/components/Forms/AddNewReminderForm";
 import NearestReminder from "@/components/NearestReminder/NearestReminder";
+import baseURL from "@/lib/baseURL";
 
 import React from "react";
 
 const NewPayment = () => {
   const onSubmit = async (data: any) => {
-    const res = await fetch("/new-payment/api", {
+    const res = await fetch(baseURL().concat("/api/new-payment"), {
       method: "POST",
       body: JSON.stringify(data),
     });
     const json = await res.json();
-    console.log("response", json);
+
+    if (!res.ok) {
+      throw Error(json.message);
+    } else {
+      alert("New reminder added");
+    }
   };
   return (
     <main className="flex gap-12 container mx-auto">
