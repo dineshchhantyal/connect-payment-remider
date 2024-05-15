@@ -1,0 +1,52 @@
+"use client";
+import AddNewReminderForm from "@/components/Forms/AddNewReminderForm";
+import NearestReminder from "@/components/NearestReminder/NearestReminder";
+import baseURL from "@/lib/baseURL";
+
+import React from "react";
+
+const NewPayment = () => {
+  const onSubmit = async (data: any) => {
+    const res = await fetch(baseURL().concat("/api/new-payment"), {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    const json = await res.json();
+
+    if (!res.ok) {
+      throw Error(json.message);
+    } else {
+      alert("New reminder added");
+    }
+  };
+  return (
+    <main className="flex gap-12 container mx-auto">
+      {/* form for options to add new payment reminder*/}
+      <div className="flex-1">
+        <h2
+          className="font-bold mb-4 text-2xl text-gray-900 dark:text-white dark:text-opacity-80 dark:font-semibold dark:mb-4 dark:text-2xl dark:mt-4
+        "
+        >
+          Add new reminder
+        </h2>
+        <AddNewReminderForm onSubmit={onSubmit} />
+      </div>
+      {/* calender preview */}
+      <div>
+        <div className="border-red-100 grid grid-cols-7 my-12">
+          {new Array(30).fill(0).map((c, i) => (
+            <div
+              className="p-2 border-gray-100 bg-gray-800 m-1 rounded-sm grid place-items-center"
+              key={i + 1}
+            >
+              {i + 1}
+            </div>
+          ))}
+        </div>
+        <NearestReminder />
+      </div>
+    </main>
+  );
+};
+
+export default NewPayment;

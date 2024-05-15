@@ -1,8 +1,10 @@
 import { unstable_getServerSession } from "next-auth";
-import LoginButton from "../login/LoginButton";
-import SearchBar from "../search/SearchBar";
-import calculateRemainingTime from "@/helpher/calculateRemainingTime";
+import LoginButton from "../Login/LoginButton";
+import SearchBar from "../Search/SearchBar";
+import { calculateRemainingTime } from "@/lib/helphers";
 import clsx from "clsx";
+import Image from "next/image";
+import Link from "next/link";
 
 async function Header({ logo }: { logo: string }) {
   const session = await unstable_getServerSession();
@@ -10,7 +12,15 @@ async function Header({ logo }: { logo: string }) {
   return (
     <nav className="flex items-center justify-between px-6 py-3 bg-gray-800 text-white">
       <div className="flex items-center ">
-        <img src={logo} alt="Logo" className="h-6 mr-4" />
+        <Link href="/" passHref>
+          <Image
+            src={logo}
+            alt="Logo"
+            className="mr-4"
+            height={"24"}
+            width={"120"}
+          />
+        </Link>
       </div>
       <SearchBar className="hidden md:block flex-[0.6] " />
       {session ? (
@@ -45,10 +55,12 @@ async function Header({ logo }: { logo: string }) {
 
           <div>
             <button className="p-1 rounded-md hover:bg-gray-700 focus:outline-none">
-              <img
+              <Image
                 src={session?.user?.image ?? ""}
                 alt={session?.user?.name ?? "Profile Image"}
-                className="w-8 h-8 rounded-full"
+                className="rounded-full"
+                width={32}
+                height={32}
               />
             </button>
           </div>
